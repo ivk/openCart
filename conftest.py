@@ -26,7 +26,6 @@ def browser(request):
         service = FirefoxService()
         browser = webdriver.Firefox(options=options, service=service)
 
-
     browser.maximize_window()
 
     yield browser
