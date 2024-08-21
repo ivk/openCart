@@ -107,4 +107,3 @@ def test_switch_currency(browser, base_url, url):
     price_elements = browser.find_elements(By.CSS_SELECTOR, 'div.price')
     for el in price_elements:
         assert '$' in el.text
-
