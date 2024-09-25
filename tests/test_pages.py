@@ -25,34 +25,34 @@ def test_main(browser, base_url):
     WebDriverWait(browser, timeout=TIMEOUT)
 
     assert "Your Store" in browser.title
-    assert browser.find_element(By.ID, "logo")
+    assert browser.find_element(By.ID, "logo").is_displayed()
 
     product_cards = browser.find_elements(By.CLASS_NAME, "product-thumb")
     assert len(product_cards) == 4
 
-    assert browser.find_element(By.ID, "carousel-banner-1")
+    assert browser.find_element(By.ID, "carousel-banner-1").is_displayed()
     assert "OpenCart" in browser.find_element(By.TAG_NAME, "footer").text
 
 
 def test_catalogue(browser, base_url):
     browser.get(f"{base_url}/catalog/desktops")
     assert WebDriverWait(browser, TIMEOUT).until(lambda x: x.find_element(By.TAG_NAME, "main"))
-    assert browser.find_element(By.ID, 'product-category')
-    assert browser.find_element(By.CSS_SELECTOR, 'ul.breadcrumb')
-    assert browser.find_element(By.CSS_SELECTOR, '#content h2')
-    assert browser.find_element(By.ID, 'product-list')
+    assert browser.find_element(By.ID, 'product-category').is_displayed()
+    assert browser.find_element(By.CSS_SELECTOR, 'ul.breadcrumb').is_displayed()
+    assert browser.find_element(By.CSS_SELECTOR, '#content h2').is_displayed()
+    assert browser.find_element(By.ID, 'product-list').is_displayed()
 
     products = browser.find_elements(By.CLASS_NAME, 'product-thumb')
     assert len(products) > 4
 
-    assert browser.find_element(By.CSS_SELECTOR, 'ul.pagination')
+    assert len(browser.find_elements(By.CSS_SELECTOR, 'ul.pagination li'))
 
 
 def test_card(browser, base_url):
     browser.get(f"{base_url}/product/desktops/macbook")
     assert WebDriverWait(browser, TIMEOUT).until(lambda x: x.find_element(By.TAG_NAME, "main"))
-    assert browser.find_element(By.CSS_SELECTOR, '#product-info #content')
-    assert browser.find_element(By.TAG_NAME, 'h1')
+    assert browser.find_element(By.CSS_SELECTOR, '#product-info #content').is_displayed()
+    assert browser.find_element(By.TAG_NAME, 'h1').is_displayed()
     price = browser.find_element(By.CLASS_NAME, 'price-new').text
     assert '$' in price
     assert float(price[1:]) > 100
@@ -66,8 +66,8 @@ def test_admin_login_page(browser, base_url):
     assert "Please enter your login details." in element.text
 
     assert "Administration" in browser.title
-    assert browser.find_element(By.NAME, "username")
-    assert browser.find_element(By.NAME, "password")
+    assert browser.find_element(By.NAME, "username").is_enabled()
+    assert browser.find_element(By.NAME, "password").is_enabled()
 
     btn = browser.find_element(By.TAG_NAME, "button")
     assert btn.text == "Login"
@@ -79,9 +79,9 @@ def test_user_registration(browser, base_url):
     browser.get(f"{base_url}/?route=account/register")
     assert WebDriverWait(browser, TIMEOUT).until(lambda x: x.find_element(By.TAG_NAME, "main"))
     assert browser.find_element(By.TAG_NAME, 'nav')
-    assert browser.find_element(By.TAG_NAME, 'header')
-    assert browser.find_element(By.TAG_NAME, 'footer')
-    assert browser.find_element(By.CSS_SELECTOR, "main form")
+    assert browser.find_element(By.TAG_NAME, 'header').is_displayed()
+    assert len(browser.find_elements(By.TAG_NAME, 'footer'))
+    browser.find_element(By.CSS_SELECTOR, "main form")
     assert browser.find_element(By.CSS_SELECTOR, ".text-end button").is_enabled()
 
 
