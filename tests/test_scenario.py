@@ -2,6 +2,7 @@
 Часть 3
 """
 import random
+from time import sleep
 
 import pytest
 from selenium.webdriver.common.by import By
@@ -54,3 +55,11 @@ def test_switch_currency(browser, base_url, url):
     page.assert_currency('€')
     page.switch_currency('USD')
     page.assert_currency('$')
+
+# Добавление нового товара в разделе администратора
+def test_add_product(browser, base_url):
+    page = AdminPage(base_url, browser, TIMEOUT)
+    page.open()
+    page.login(USERNAME, PASSWORD)
+    page.add_product('test', 'a-6', 'test-a6')
+
