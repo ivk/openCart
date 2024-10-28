@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import random
+import logging
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -15,12 +16,15 @@ class BasePage:
         self.base_url = base_url
         self.wait = WebDriverWait(browser, timeout)
 
+        self.logger = browser.logger
+        self.class_name = type(self).__name__
+
     @abstractmethod
     def open(self, url):
+        self.logger.debug("%s: Opening url: %s" % (self.class_name, url))
         self.browser.get(f"{self.base_url}{url}")
         assert self.browser.find_element(By.TAG_NAME, 'header').is_displayed()
         assert self.browser.find_element(By.TAG_NAME, 'footer').is_displayed()
-
 
     def scroll_to_element(self, el, x=0, y=1000):
         actions = ActionChains(self.browser)
