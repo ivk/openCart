@@ -61,5 +61,6 @@ def test_add_product(browser, base_url):
     page = AdminPage(base_url, browser, TIMEOUT)
     page.open()
     page.login(USERNAME, PASSWORD)
-    page.add_product('test', 'a-6', 'test-a6')
+    num = random.randint(1,1000)
+    page.add_product(f'test{num}', f'a-{num}', f'test-a{num}')
 

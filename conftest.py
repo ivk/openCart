@@ -16,14 +16,16 @@ def pytest_addoption(parser):
     parser.addoption("--base_url", action="store", default="http://192.168.10.79:8081/", help="Base URL for the tests")
     parser.addoption("--log_level", action="store", default="INFO")
 
-@pytest.fixture(scope="session")
+
+@pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
     log_level = request.config.getoption("--log_level")
 
-    logger = logging.getLogger(request.node.name)
-    file_handler = logging.FileHandler(f"logs/{request.node.name}.log")
+    test_name = request.node.originalname
+    logger = logging.getLogger(test_name)
+    file_handler = logging.FileHandler(f"logs/{test_name}.log")
     file_handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.addHandler(file_handler)
     logger.setLevel(level=log_level)
@@ -49,7 +51,7 @@ def browser(request):
 
     browser.log_level = log_level
     browser.logger = logger
-    browser.test_name = request.node.name
+    browser.test_name = test_name
 
     logger.info("Browser %s started" % browser_name)
 

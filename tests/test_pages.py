@@ -24,6 +24,7 @@ from pages.main_page import MainPage
 
 TIMEOUT = 1
 
+
 def test_main(browser, base_url):
     page = MainPage(base_url, browser, TIMEOUT)
     page.open("/")

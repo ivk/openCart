@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 import random
-import logging
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -21,12 +20,13 @@ class BasePage:
 
     @abstractmethod
     def open(self, url):
-        self.logger.debug("%s: Opening url: %s" % (self.class_name, url))
+        self.logger.info("%s: Opening url: %s" % (self.class_name, url))
         self.browser.get(f"{self.base_url}{url}")
-        assert self.browser.find_element(By.TAG_NAME, 'header').is_displayed()
-        assert self.browser.find_element(By.TAG_NAME, 'footer').is_displayed()
+        assert self.browser.find_element(By.TAG_NAME, 'body').is_displayed()
 
     def scroll_to_element(self, el, x=0, y=1000):
+        self.logger.info("%s: Scrolling to: %s" % (self.class_name, el))
+
         actions = ActionChains(self.browser)
 
         actions.scroll_by_amount(x, y).perform()
@@ -36,6 +36,8 @@ class BasePage:
 
 
     def put_rand_to_shopping_cart(self, rand=4):
+        self.logger.info(f"{self.class_name}: Put something into the shopping cart")
+
         shopping_cart_icon = self.browser.find_element(By.CLASS_NAME, 'fa-cart-shopping')
         assert '0 item', shopping_cart_icon.text
 

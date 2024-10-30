@@ -1,16 +1,13 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from abc import ABC
 
+from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
-class MainPage(BasePage):
-
-    def open(self, url):
-        self.logger.debug("%s: Opening url: %s" % (self.class_name, url))
-        self.browser.get(f"{self.base_url}")
-        assert WebDriverWait(self.browser, self.timeout).until(lambda x: x.find_element(By.TAG_NAME, "footer"))
+class MainPage(BasePage, ABC):
 
     def fulfill(self):
+        self.logger.info(f"{self.class_name}: Main page is ok ")
+
         assert "Your Store" in self.browser.title
         assert self.browser.find_element(By.ID, "logo").is_displayed()
 
