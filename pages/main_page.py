@@ -1,10 +1,12 @@
 from abc import ABC
 
+import allure
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 class MainPage(BasePage, ABC):
 
+    @allure.step("Main page is correct")
     def fulfill(self):
         self.logger.info(f"{self.class_name}: Main page is ok ")
 

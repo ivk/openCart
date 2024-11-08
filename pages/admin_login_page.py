@@ -83,5 +83,6 @@ class AdminPage(BasePage, ABC):
         self.browser.find_element(By.CSS_SELECTOR, ".float-end button").click()
         # self.wait.until(EC.presence_of_element_located((By.XPATH, "//button[@aria-label]"))).click()
 
-        el = self.wait.until(EC.presence_of_element_located((By.ID, 'alert')))
-        assert  'Success' in el.text
+        self.check_alert('Success')
+
+

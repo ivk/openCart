@@ -1,3 +1,7 @@
+from getopt import getopt
+from venv import logger
+
+import allure
 import pytest
 import logging
 import datetime
@@ -15,6 +19,14 @@ def pytest_addoption(parser):
     parser.addoption("--headless", action="store", default="false", help="Use headless browser (false/true)", choices=('true', 'false'))
     parser.addoption("--base_url", action="store", default="http://192.168.10.79:8081/", help="Base URL for the tests")
     parser.addoption("--log_level", action="store", default="INFO")
+
+
+# @pytest.hookimpl(hookwrapper=True, tryfirst=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     rep = outcome.get_result()
+#     setattr(item, "rep_" + rep.when, rep)
+#     return rep
 
 
 @pytest.fixture(scope="function")
@@ -67,3 +79,32 @@ def browser(request):
 def base_url(request):
     return request.config.getoption("--base_url")
 
+
+def pytest_exception_interact(node, call, report):
+    if report.failed:
+        print('test failed')
+        logger = logging.getLogger(node.name)
+        logger.info(f"ERROR Test {node.name} failed!!!")
+        driver = node.funcargs['browser']
+        allure.attach(
+                        driver.get_screenshot_as_png(),
+                        name="screenshot_on_failure",
+                        attachment_type=allure.attachment_type.PNG
+                    )
+
+
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     rep = outcome.get_result()
+#     setattr(item, "rep_" + rep.when, rep)
+#     if rep.when == "call" and rep.failed:
+#         try:
+#             driver = item.funcargs['browser']
+#             allure.attach(
+#                 driver.get_screenshot_as_png(),
+#                 name="screenshot_on_failure",
+#                 attachment_type=allure.attachment_type.PNG
+#             )
+#         except Exception as e:
+#             logging.error(f"Failed to take screenshot: {e}")

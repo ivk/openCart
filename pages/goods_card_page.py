@@ -1,11 +1,13 @@
 from abc import ABC
 
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from pages.base_page import BasePage
 
 class CardPage(BasePage, ABC):
 
+    @allure.step("Product card is correct")
     def cards_correct(self):
         self.logger.info(f"{self.class_name}: Product card is correct")
 

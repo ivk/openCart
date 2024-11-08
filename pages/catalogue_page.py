@@ -1,5 +1,6 @@
 from abc import ABC
 
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
@@ -20,6 +21,7 @@ class CataloguePage(BasePage, ABC):
 
         assert len(self.browser.find_elements(By.CSS_SELECTOR, 'ul.pagination li'))
 
+    @allure.step("Switching currency")
     def switch_currency(self, new_currency='EUR'):
         self.logger.info("%s: Switch currency to %s" % (self.class_name, new_currency))
 
@@ -29,6 +31,7 @@ class CataloguePage(BasePage, ABC):
         self.browser.find_element(By.XPATH, f'//a[@href="{new_currency}"]').click()
         self.wait.until(EC.invisibility_of_element((By.CSS_SELECTOR, 'ul.dropdown-menu')))
 
+    @allure.step("Asserting currency")
     def assert_currency(self, currency):
         self.logger.info("%s: Assert currency is %s" % (self.class_name, currency))
 

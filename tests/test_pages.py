@@ -13,8 +13,8 @@
 Страницу регистрации пользователя (/index.php?route=account/register)
 Какие именно элементы проверять определить самостоятельно, но не меньше 5 для каждой страницы
 """
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+import allure
+from allure_commons.types import Severity
 
 from pages.user_registration_page import UserRegistrationPage
 from pages.admin_login_page import AdminPage
@@ -25,31 +25,55 @@ from pages.main_page import MainPage
 TIMEOUT = 1
 
 
+@allure.severity(severity_level=Severity.BLOCKER)
+@allure.title("Main page checking")
+@allure.feature("Pages testing")
 def test_main(browser, base_url):
     page = MainPage(base_url, browser, TIMEOUT)
     page.open("/")
     page.fulfill()
 
 
+@allure.severity(severity_level=Severity.NORMAL)
+@allure.title("Catalogue page checking")
+@allure.feature("Pages testing")
 def test_catalogue(browser, base_url):
     catalogue = CataloguePage(base_url, browser, TIMEOUT)
     catalogue.open("/catalog/desktops")
     catalogue.catalog_page_correct()
 
 
+@allure.severity(severity_level=Severity.NORMAL)
+@allure.title("Product page checking")
+@allure.feature("Pages testing")
 def test_card(browser, base_url):
     card = CardPage(base_url, browser, TIMEOUT)
     card.open("/product/desktops/macbook")
     card.cards_correct()
 
 
+@allure.severity(severity_level=Severity.MINOR)
+@allure.title("Admin page login checking")
+@allure.feature("Pages testing")
 def test_admin_login_page(browser, base_url):
     admin_login = AdminPage(base_url, browser, TIMEOUT)
     admin_login.open("/administration")
     admin_login.form_exists_and_correct()
 
 
+@allure.severity(severity_level=Severity.NORMAL)
+@allure.title("User registration page checking")
+@allure.feature("Pages testing")
 def test_user_registration(browser, base_url):
     user_reg_page = UserRegistrationPage(base_url, browser, TIMEOUT)
     user_reg_page.open("/?route=account/register")
     user_reg_page.form_exists()
+
+
+@allure.severity(severity_level=Severity.CRITICAL)
+@allure.title("Main page checking with failure")
+@allure.feature("Pages testing")
+def test_failed(browser, base_url):
+    page = MainPage(base_url, browser, TIMEOUT)
+    page.open('/')
+    assert False
