@@ -1,14 +1,9 @@
-"""
-Часть 3
-"""
 import random
-from time import sleep
 
+import allure
 import pytest
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
+from allure_commons.types import Severity
+
 from conftest import browser
 
 from pages.admin_login_page import AdminPage
@@ -21,6 +16,9 @@ USERNAME = 'user'
 PASSWORD = 'bitnami'
 
 
+@allure.severity(severity_level=Severity.NORMAL)
+@allure.title("Admin login")
+@allure.feature("Scenario testing")
 def test_admin_login(browser, base_url):
     """
     3.1 Написать автотест логина-разлогина в админку с проверкой, что логин был выполнен
@@ -33,6 +31,9 @@ def test_admin_login(browser, base_url):
     page.logout()
 
 
+@allure.severity(severity_level=Severity.CRITICAL)
+@allure.title("Put something into basket")
+@allure.feature("Scenario testing")
 @pytest.mark.parametrize(["url", "rand"], {("/", 4), ("/catalog/component/monitor", 2)})
 def test_put_something_into_basket(browser, base_url, url, rand):
     """
@@ -43,6 +44,9 @@ def test_put_something_into_basket(browser, base_url, url, rand):
     page.put_rand_to_shopping_cart(2)
 
 
+@allure.severity(severity_level=Severity.NORMAL)
+@allure.title("Changing currency")
+@allure.feature("Scenario testing")
 @pytest.mark.parametrize("url", ("/", "/catalog/smartphone"))
 def test_switch_currency(browser, base_url, url):
     """
@@ -56,10 +60,14 @@ def test_switch_currency(browser, base_url, url):
     page.switch_currency('USD')
     page.assert_currency('$')
 
-# Добавление нового товара в разделе администратора
+
+@allure.severity(severity_level=Severity.MINOR)
+@allure.title("Admin section, creating new product")
+@allure.feature("Scenario testing")
 def test_add_product(browser, base_url):
     page = AdminPage(base_url, browser, TIMEOUT)
     page.open()
     page.login(USERNAME, PASSWORD)
-    page.add_product('test', 'a-6', 'test-a6')
+    num = random.randint(1,1000)
+    page.add_product(f'test{num}', f'a-{num}', f'test-a{num}')
 
