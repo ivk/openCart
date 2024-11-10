@@ -8,7 +8,7 @@ from pages.base_page import BasePage
 class AdminPage(BasePage, ABC):
 
     def open(self, url="/administration"):
-        self.logger.info(f"{self.class_name}: We are on the Administration section")
+        self.logger.info(f"{self.class_name}: Opening the Administration section")
 
         self.browser.get(f"{self.base_url}{url}")
         element = WebDriverWait(self.browser, self.timeout).until(lambda x: x.find_element(By.ID, "content"))
@@ -18,7 +18,7 @@ class AdminPage(BasePage, ABC):
 
 
     def form_exists_and_correct(self):
-        self.logger.info(f"{self.class_name}: Admin login form is ok" )
+        self.logger.info(f"{self.class_name}: Check if admin's login form is ok" )
 
         assert self.browser.find_element(By.NAME, "username").is_enabled()
         assert self.browser.find_element(By.NAME, "password").is_enabled()

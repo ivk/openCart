@@ -20,7 +20,7 @@ class BasePage:
         self.class_name = type(self).__name__
 
     @abstractmethod
-    @allure.step("Open page")
+    @allure.step("Open page {url}")
     def open(self, url):
         self.logger.info("%s: Opening url: %s" % (self.class_name, url))
         self.browser.get(f"{self.base_url}{url}")
@@ -37,7 +37,7 @@ class BasePage:
         self.wait.until(EC.visibility_of(el))
         return el
 
-    @allure.step("Click on element")
+    @allure.step("Click on element {locator}")
     def click(self, locator):
         self.logger.info(f"Click {locator}")
         self.wait.until(EC.element_to_be_clickable(locator)).click()
