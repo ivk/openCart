@@ -1,15 +1,15 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from abc import ABC
 
+import allure
+from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
-class MainPage(BasePage):
+class MainPage(BasePage, ABC):
 
-    def open(self, url):
-        self.browser.get(f"{self.base_url}")
-        assert WebDriverWait(self.browser, self.timeout).until(lambda x: x.find_element(By.TAG_NAME, "footer"))
-
+    @allure.step("Main page is correct")
     def fulfill(self):
+        self.logger.info(f"{self.class_name}: Main page is ok ")
+
         assert "Your Store" in self.browser.title
         assert self.browser.find_element(By.ID, "logo").is_displayed()
 
