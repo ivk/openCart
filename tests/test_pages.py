@@ -58,7 +58,7 @@ def test_card(browser, base_url):
 def test_admin_login_page(browser, base_url):
     admin_login = AdminPage(base_url, browser, TIMEOUT)
     admin_login.open("/administration")
-    admin_login.form_exists_and_correct()
+    admin_login.form_exists_ad_correct()
 
 
 @allure.severity(severity_level=Severity.NORMAL)
