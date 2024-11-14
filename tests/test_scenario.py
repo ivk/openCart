@@ -34,7 +34,7 @@ def test_admin_login(browser, base_url):
 @allure.severity(severity_level=Severity.CRITICAL)
 @allure.title("Put something into basket")
 @allure.feature("Scenario testing")
-@pytest.mark.parametrize(["url", "rand"], {("/", 4), ("/catalog/component/monitor", 2)})
+@pytest.mark.parametrize(["url", "rand"], [("/", 4), ("/catalog/component/monitor", 2)])
 def test_put_something_into_basket(browser, base_url, url, rand):
     """
     3.2 Добавить в корзину случайный товар с главной страницы и проверить что он появился в корзине
@@ -47,7 +47,7 @@ def test_put_something_into_basket(browser, base_url, url, rand):
 @allure.severity(severity_level=Severity.NORMAL)
 @allure.title("Changing currency")
 @allure.feature("Scenario testing")
-@pytest.mark.parametrize("url", ("/", "/catalog/smartphone"))
+@pytest.mark.parametrize("url", ["/", "/catalog/smartphone"])
 def test_switch_currency(browser, base_url, url):
     """
     3.3 Проверить, что при переключении валют цены на товары меняются на главной
