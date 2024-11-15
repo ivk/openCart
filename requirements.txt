@@ -1,5 +1,5 @@
 pytest==8.3.3
 selenium==4.23.1
 allure-pytest==2.13.5
-
+pytest_xdist==3.6.1
 allure-python-commons~=2.13.5

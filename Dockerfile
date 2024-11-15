@@ -11,8 +11,7 @@ COPY requirements.txt .
 RUN pip install -U pip && pip install -r requirements.txt
 
 COPY tests/test*.py  tests/
+COPY pages/*.py pages/
 COPY conftest.py .
 
-#CMD ["pytest"]
-
-ENTRYPOINT ["pytest"] 
+ENTRYPOINT pytest
