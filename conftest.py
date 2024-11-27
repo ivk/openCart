@@ -9,14 +9,19 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 TIMEOUT = 1
+# hiper     "http://192.168.10.79:8081/"
+#localhost  'http://192.168.10.37:8088/'
+SITE_ADDR = 'http://192.168.10.37:8088/'
+LOCALHOST = '192.168.10.37'
 
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Browser to run tests (chrome/firefox)", choices=('chrome', 'firefox'))
     parser.addoption("--headless", action="store", default="false", help="Use headless browser (false/true)", choices=('true', 'false'))
-    parser.addoption("--base_url", action="store", default="http://192.168.10.79:8081/", help="Base URL for the tests")
+    # parser.addoption("--base_url", action="store", default=, help="Base URL for the tests")
+    parser.addoption("--base_url", action="store", default=SITE_ADDR, help="Base URL for the tests")
     parser.addoption("--log_level", action="store", default="INFO")
-    parser.addoption("--executor", action="store", default="localhost")
+    parser.addoption("--executor", action="store", default=LOCALHOST)
 
 
 @pytest.fixture(scope="session")
@@ -58,7 +63,7 @@ def browser(request):
             options.add_argument("--height=1080")
 
     options.set_capability("selenoid:options", {
-        "enableVNC": True,
+        "enableVNC": False,
         "name": request.node.name,
     })
     browser = webdriver.Remote(
@@ -79,15 +84,15 @@ def browser(request):
     logger.info("===> Test %s finished at %s" % (request.node.name, datetime.datetime.now()))
 
 
-def pytest_exception_interact(node, call, report):
-    if report.failed:
-        print('test failed')
-        logger = logging.getLogger(node.name)
-        logger.info(f"ERROR Test {node.name} failed!!!")
-        driver = node.funcargs['browser']
-        allure.attach(
-                        driver.get_screenshot_as_png(),
-                        name="screenshot_on_failure",
-                        attachment_type=allure.attachment_type.PNG
-                    )
+# def pytest_exception_interact(node, call, report):
+#     if report.failed:
+#         print('test failed')
+#         logger = logging.getLogger(node.name)
+#         logger.info(f"ERROR Test {node.name} failed!!!")
+#         driver = node.funcargs['browser']
+#         allure.attach(
+#                         driver.get_screenshot_as_png(),
+#                         name="screenshot_on_failure",
+#                         attachment_type=allure.attachment_type.PNG
+#                     )
 
