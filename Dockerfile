@@ -13,7 +13,9 @@ RUN pip install -U pip && pip install -r requirements.txt
 COPY tests/test*.py  tests/
 COPY pages/*.py pages/
 RUN mkdir -p /app/logs
+RUN mkdir -p /app/allure-results
 COPY conftest.py .
+COPY pytest.ini /app/
 
 #CMD ["pytest"]
 
