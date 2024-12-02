@@ -12,7 +12,7 @@ RUN pip install -U pip && pip install -r requirements.txt
 
 COPY tests/test*.py  tests/
 COPY pages/*.py pages/
-RUN mkdir -p logs
+RUN mkdir -p ./logs
 RUN mkdir -p allure-results
 
 COPY conftest.py .
