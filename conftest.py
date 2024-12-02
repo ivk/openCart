@@ -84,15 +84,15 @@ def browser(request):
     logger.info("===> Test %s finished at %s" % (request.node.name, datetime.datetime.now()))
 
 
-# def pytest_exception_interact(node, call, report):
-#     if report.failed:
-#         print('test failed')
-#         logger = logging.getLogger(node.name)
-#         logger.info(f"ERROR Test {node.name} failed!!!")
-#         driver = node.funcargs['browser']
-#         allure.attach(
-#                         driver.get_screenshot_as_png(),
-#                         name="screenshot_on_failure",
-#                         attachment_type=allure.attachment_type.PNG
-#                     )
+def pytest_exception_interact(node, call, report):
+    if report.failed:
+        print('test failed')
+        logger = logging.getLogger(node.name)
+        logger.info(f"ERROR Test {node.name} failed!!!")
+        driver = node.funcargs['browser']
+        allure.attach(
+                        driver.get_screenshot_as_png(),
+                        name="screenshot_on_failure",
+                        attachment_type=allure.attachment_type.PNG
+                    )
 

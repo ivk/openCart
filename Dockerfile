@@ -15,5 +15,5 @@ COPY pages/*.py pages/
 COPY logs logs
 COPY conftest.py .
 
-CMD ["pytest"]
+#CMD ["pytest"]
 

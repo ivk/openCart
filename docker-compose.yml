@@ -34,8 +34,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - opencart
-    command:
-      - pytest
+    command: ["pytest"]
 
 
 volumes:
