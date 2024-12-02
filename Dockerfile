@@ -12,7 +12,7 @@ RUN pip install -U pip && pip install -r requirements.txt
 
 COPY tests/test*.py  tests/
 COPY pages/*.py pages/
-COPY logs logs
+RUN mkdir -p /app/logs
 COPY conftest.py .
 
 #CMD ["pytest"]
